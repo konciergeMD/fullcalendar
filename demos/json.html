@@ -16,7 +16,10 @@
 		$('#calendar').fullCalendar({
 		
 			editable: true,
-			
+			dateReformatter: function(dt, orig){
+                console.log(dt + ' ' + orig);
+            },
+
 			events: "json-events.php",
 			
 			eventDrop: function(event, delta) {

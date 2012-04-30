@@ -132,15 +132,28 @@ function EventManager(options, _sources, _resources) {
 				var endParam = firstDefined(source.endParam, options.endParam);
 				if (startParam) {
 					data[startParam] = Math.round(+rangeStart / 1000);
+					/*----------Added by JS to intercept UNIX timestamps and reformat them using a callback*/
+					if (options.dateReformatter){
+					   data[startParam] = options.dateReformatter(data[startParam], rangeStart);
+					}
+					/*End JS Edit */
 				}
 				if (endParam) {
 					data[endParam] = Math.round(+rangeEnd / 1000);
+					/*----------Added by JS to intercept UNIX timestamps and reformat them using a callback*/
+					if (options.dateReformatter){
+                       data[endParam] = options.dateReformatter(data[endParam], rangeEnd);
+                    }
+                    /*End JS Edit */
 				}
 				pushLoading();
 				$.ajax($.extend({}, ajaxDefaults, source, {
 					data: data,
 					success: function(events) {
 						events = events || [];
+						/*----------Added by JS to intercept KMD events and reformat them for use in fullcalendar*/
+						if (options.eventPreprocessor)events = options.eventPreprocessor(events);
+						/*End JS Edit */
 						var res = applyAll(success, this, arguments);
 						if ($.isArray(res)) {
 							events = res;

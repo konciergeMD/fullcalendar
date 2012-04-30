@@ -23,6 +23,10 @@ var defaults = {
 	lazyFetching: true,
 	startParam: 'start',
 	endParam: 'end',
+	/*Added by JS -- See EventManager.js*/
+	dateReformatter: function(){},
+	eventPreprocessor : function(events){ return events; },
+	/*End JS Edits*/
 	
 	// time formats
 	titleFormat: {

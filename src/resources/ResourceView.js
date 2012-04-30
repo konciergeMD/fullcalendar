@@ -207,7 +207,7 @@ function ResourceView(element, calendar, viewName) {
 			"<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 		for (i=0; i<colCnt; i++) {
 			s +=
-				"<th class='fc- fc-col" + i + ' ' + headerClass + "'/>"; // fc- needed for setDayID
+				"<th class='fc- fc-col" + i + ' ' + headerClass + " fc-res-" + resources[i].id + "'/>"; // fc- needed for setDayID
 		}
 		s +=
 			"<th class='fc-agenda-gutter " + headerClass + "'>&nbsp;</th>" +
@@ -218,7 +218,7 @@ function ResourceView(element, calendar, viewName) {
 			"<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 		for (i=0; i<colCnt; i++) {
 			s +=
-				"<td class='fc- fc-col" + i + ' ' + contentClass + "'>" + // fc- needed for setDayID
+				"<td class='fc- fc-col" + i + ' ' + contentClass + " fc-res-" + resources[i].id + "'>" + // fc- needed for setDayID
 				"<div>" +
 				"<div class='fc-day-content'>" +
 				"<div style='position:relative'>&nbsp;</div>" +

@@ -25,6 +25,9 @@
 								right: 'resourceDay,month,agendaWeek,agendaDay'
 							},
 							editable: true,
+							dateReformatter: function(dt, orig){
+							    console.log(dt + ' ' + orig);
+							},
 							resources: [
 								{
 									id: 1,
@@ -124,6 +127,30 @@
 					function remRes() {
 						resources = $('#calendar').fullCalendar( 'removeEventResource', 3 );
 					}
+					
+					function applyClass(resources, matchClass, unmatchClass){
+						var all = resources.indexOf('*')  > -1;
+						var todisplay = $('#calendar').fullCalendar( 'clientEvents', function(eo){
+							if (all){
+								eo.className = matchClass;											
+							}else{
+								var id = '';
+								if (eo.resource){
+									id = eo.resource.id;
+								}else{
+									id = eo.rescourceId;
+								}
+								if (resources.indexOf(id) > -1){
+									eo.className = matchClass;
+								}else{
+						            eo.className = unmatchClass;
+								}
+							}
+							console.log(eo.className);
+							$('#calendar').fullCalendar('updateEvent', eo);
+							return false;
+						});
+					}
 				</script>
 				<style type='text/css'>
 
@@ -138,12 +165,16 @@
 						width: 900px;
 						margin: 0 auto;
 						}
-
+					.hidden{
+						display: none;
+					}
 				</style>
 				</head>
 				<body>
 				<a href="javascript:void(0)" onClick="addRes();">Add resource</a>
 				<a href="javascript:void(0)" onClick="remRes();">Remove resource</a>
+				<a href="javascript:void(0)" onClick="applyClass([3], '', 'hidden');">3,4</a>
+				<a href="javascript:void(0)" onClick="applyClass(['*'], '', 'hidden');">*</a>
 				<div id='calendar'></div>
 				</body>
 				</html>
