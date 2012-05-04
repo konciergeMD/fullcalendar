@@ -114,10 +114,9 @@ function ResourceEventRenderer() {
 			resources = calendar.getResources(),
 			resourceEvents, visEventEndsForRes;
 		for (i=0; i<colCnt; i++) {
-            var dow = Math.ceil((i + 1)/(colCnt/dayCnt)) - 1;
-            d1 = addDays(cloneDate(d), dow);
-            d2 = addDays(cloneDate(d), dow + 1);
-            console.log(d1,d2);
+            var dow = Math.ceil((i + 1)/(colCnt/ t.daysCnt)) - 1;
+            var d1 = addDays(cloneDate(d), dow);
+            var d2 = addDays(cloneDate(d), dow + 1);
             var res = i % resources.length;
 			resourceEvents = eventsForResource(resources[res], events);
 			visEventEndsForRes = visEventEndsForResource(resources[res], events);

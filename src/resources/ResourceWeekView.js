@@ -20,12 +20,13 @@ function ResourceWeekView(element, calendar) {
 				skipWeekend(date, delta < 0 ? -1 : 1);
 			}
 		}
-        var days =opt('weekends') ? 7:5;
+        var days = opt('weekends') ? 7:5;
 		var start = cloneDate(date, true);
 		var end = addDays(cloneDate(start), days);
 		t.title = formatDate(date, opt('titleFormat'));
 		t.start = t.visStart = start;
 		t.end = t.visEnd = end;
-		renderResourceView(days, rebuildSkeleton);
+        t.daysCnt = days;
+		renderResourceView(rebuildSkeleton);
 	}
 }
