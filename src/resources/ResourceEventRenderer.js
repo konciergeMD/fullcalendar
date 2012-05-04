@@ -87,7 +87,7 @@ function ResourceEventRenderer() {
 			i, levelCnt=levels.length, level,
 			j, seg,
 			segs=[];
-			
+
 		for (i=0; i<levelCnt; i++) {
 			level = levels[i];
 			for (j=0; j<level.length; j++) {
@@ -114,10 +114,14 @@ function ResourceEventRenderer() {
 			resources = calendar.getResources(),
 			resourceEvents, visEventEndsForRes;
 		for (i=0; i<colCnt; i++) {
-			resourceEvents = eventsForResource(resources[i], events);
-			visEventEndsForRes = visEventEndsForResource(resources[i], events);
-		
-			col = stackSegs(sliceSegs(resourceEvents, visEventEndsForRes, d, addMinutes(cloneDate(d), maxMinute-minMinute)));
+            var dow = Math.ceil((i + 1)/(colCnt/dayCnt)) - 1;
+            d1 = addDays(cloneDate(d), dow);
+            d2 = addDays(cloneDate(d), dow + 1);
+            console.log(d1,d2);
+            var res = i % resources.length;
+			resourceEvents = eventsForResource(resources[res], events);
+			visEventEndsForRes = visEventEndsForResource(resources[res], events);
+			col = stackSegs(sliceSegs(resourceEvents, visEventEndsForRes, d1, d2)); //addMinutes(cloneDate(d), maxMinute-minMinute)));
 			countForwardSegs(col);
 			for (j=0; j<col.length; j++) {
 				level = col[j];
@@ -139,11 +143,10 @@ function ResourceEventRenderer() {
 		for(i=0; i<events.length; i++) {
 			if(events[i].resource) {
 				if(events[i].resource.id == resource.id) {
-					resEvents.push(events[i]);
+                    resEvents.push(events[i]);
 				}
 			}
 		}
-		
 		return resEvents;
 	}
 	

@@ -1,5 +1,5 @@
 
-//BUG: unselect needs to be triggered when events are dragged+dropped
+//TODO: unselect needs to be triggered when events are dragged+dropped
 
 function SelectionManager() {
 	var t = this;

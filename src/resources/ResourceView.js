@@ -109,6 +109,7 @@ function ResourceView(element, calendar, viewName) {
 	var savedScrollTop;
 	
 	var colCnt;
+    var daysCnt;
 	var slotCnt;
 	var coordinateGrid;
 	var hoverListener;
@@ -134,12 +135,12 @@ function ResourceView(element, calendar, viewName) {
 	disableTextSelection(element.addClass('fc-agenda'));
 	
 	
-	function renderResourceView(rebuildSkeleton) {
+	function renderResourceView(days, rebuildSkeleton) {
 		updateOptions();
 		
 		resources = calendar.getResources();
-		colCnt = resources.length;
-		
+        dayCnt = days;
+        colCnt = resources.length * days;
 		if(colCnt == 0 ) {
 			colCnt++;
 		}
@@ -205,10 +206,22 @@ function ResourceView(element, calendar, viewName) {
 			"<thead>" +
 			"<tr>" +
 			"<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
+        /*
 		for (i=0; i<colCnt; i++) {
+            var res = Math.ceil((i + 1)/(colCnt/resources.length)) - 1;
 			s +=
-				"<th class='fc- fc-col" + i + ' ' + headerClass + " fc-res-" + resources[i].id + "'/>"; // fc- needed for setDayID
-		}
+				"<th class='fc- fc-col" + i + ' ' + headerClass + " fc-res-" + resources[res].id + "'/>"; // fc- needed for setDayID
+		} */
+
+        for (i=0; i<dayCnt; i++) {
+            s += "<td colspan='" + resources.length + "' class='fc- fc-col" + i + ' ' + headerClass + "'/>"; // fc- needed for setDayID
+        }
+        s+= "</tr><tr><td class='fc-agenda-axis " + headerClass + "'>&nbsp;</td>";
+
+        for (i=0; i<colCnt; i++) {
+            s += "<th class='fc- fc-col" + i + ' ' + headerClass + " fc-res-" + resources[i%resources.length].id + "'/>"; // fc- needed for setDayID
+        }
+
 		s +=
 			"<th class='fc-agenda-gutter " + headerClass + "'>&nbsp;</th>" +
 			"</tr>" +
@@ -217,8 +230,9 @@ function ResourceView(element, calendar, viewName) {
 			"<tr>" +
 			"<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 		for (i=0; i<colCnt; i++) {
+            var res = Math.ceil((i + 1)/(colCnt/resources.length)) - 1;
 			s +=
-				"<td class='fc- fc-col" + i + ' ' + contentClass + " fc-res-" + resources[i].id + "'>" + // fc- needed for setDayID
+				"<td class='fc- fc-col" + i + ' ' + contentClass + " fc-res-" + resources[res].id + "'>" + // fc- needed for setDayID
 				"<div>" +
 				"<div class='fc-day-content'>" +
 				"<div style='position:relative'>&nbsp;</div>" +
@@ -233,7 +247,8 @@ function ResourceView(element, calendar, viewName) {
 			"</table>";
 		dayTable = $(s).appendTo(element);
 		dayHead = dayTable.find('thead');
-		dayHeadCells = dayHead.find('th').slice(1, -1);
+		dayHeadCells = dayHead.find('td').slice(0, -1);
+        resHeadCells = dayHead.find('th').slice(1, -1);
 		dayBody = dayTable.find('tbody');
 		dayBodyCells = dayBody.find('td').slice(0, -1);
 		dayBodyCellInners = dayBodyCells.find('div.fc-day-content div');
@@ -339,12 +354,19 @@ function ResourceView(element, calendar, viewName) {
 		var date;
 		var today = clearTime(new Date());
 		for (i=0; i<colCnt; i++) {
-			date = colDate(0); 	// PA massive hack of existing code, but this needs to be changed to support working hours anyway!
-			headCell = dayHeadCells.eq(i);
+            var dow = Math.ceil((i + 1)/(colCnt/dayCnt)) - 1;
+			date = colDate(dow); 	// PA massive hack of existing code, but this needs to be changed to support working hours anyway!
+            dayHeadCell = dayHeadCells.eq(dow).html(formatDate(date, 'dddd'));
+			headCell = resHeadCells.eq(i);
+            headCell.addClass('fc-daycol' + dow);
 			if(resources.length > 0) {
-				headCell.html(resources[i].name);
-			}
-			else {
+                var res = i % resources.length;
+                var name = resources[res].name;
+                if (colCnt > resources.length){
+                    if(resources[res].shortName)name = resources[res].shortName;
+                }
+				headCell.html(name);
+			}else{
 				headCell.html("None");
 			}
 			bodyCell = dayBodyCells.eq(i);
@@ -421,7 +443,8 @@ function ResourceView(element, calendar, viewName) {
 		}
 		
 		colWidth = Math.floor((slotTableWidth - axisWidth) / colCnt);
-		setOuterWidth(dayHeadCells.slice(0, -1), colWidth);
+        setOuterWidth(dayHeadCells.slice(0, -1), Math.floor((slotTableWidth - axisWidth) / dayCnt));
+		setOuterWidth(resHeadCells.slice(0, -1), colWidth);
 	}
 	
 
@@ -532,7 +555,7 @@ function ResourceView(element, calendar, viewName) {
 
 	function renderSlotOverlay(overlayStart, overlayEnd) {
 		var dayStart = cloneDate(t.visStart);
-		var dayEnd = addDays(cloneDate(dayStart), 1);
+		var dayEnd = addDays(cloneDate(dayStart), dayCnt);
 		for (var i=0; i<colCnt; i++) {
 			var stretchStart = new Date(Math.max(dayStart, overlayStart));
 			var stretchEnd = new Date(Math.min(dayEnd, overlayEnd));
@@ -548,7 +571,7 @@ function ResourceView(element, calendar, viewName) {
 				);
 			}
 			addDays(dayStart, 1);
-			addDays(dayEnd, 1);
+			addDays(dayEnd, dayCnt);
 		}
 	}
 	
@@ -560,7 +583,7 @@ function ResourceView(element, calendar, viewName) {
 	
 	coordinateGrid = new CoordinateGrid(function(rows, cols) {
 		var e, n, p;
-		dayHeadCells.each(function(i, _e) {
+		resHeadCells.each(function(i, _e) {
 			e = $(_e);
 			n = e.offset().left;
 			if (i) {

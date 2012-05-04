@@ -58,6 +58,7 @@ js('agenda/AgendaView.js');
 js('agenda/AgendaEventRenderer.js');
 
 js('resources/ResourceDayView.js');
+js('resources/ResourceWeekView.js');
 js('resources/ResourceView.js');
 js('resources/ResourceList.js');
 js('resources/ResourceEventRenderer.js');
