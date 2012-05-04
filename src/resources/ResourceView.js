@@ -13,7 +13,9 @@ setDefaults({
 		resource: .5
 	},
 	minTime: 0,
-	maxTime: 24
+	maxTime: 24,
+    showDayGutter: true,
+    showWeekGutter: true
 });
 
 
@@ -206,20 +208,19 @@ function ResourceView(element, calendar, viewName) {
 			"<thead>" +
 			"<tr>" +
 			"<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
-        /*
-		for (i=0; i<colCnt; i++) {
-            var res = Math.ceil((i + 1)/(colCnt/resources.length)) - 1;
-			s +=
-				"<th class='fc- fc-col" + i + ' ' + headerClass + " fc-res-" + resources[res].id + "'/>"; // fc- needed for setDayID
-		} */
 
         for (i=0; i< t.daysCnt; i++) {
-            s += "<td colspan='" + resources.length + "' class='fc- fc-col" + i + ' ' + headerClass + "'/>"; // fc- needed for setDayID
+            s += "<th colspan='" + resources.length + "' class='fc-col" + i + " " + headerClass + " fc-dayhead'/>"; // fc- needed for setDayID
         }
-        s+= "</tr><tr><td class='fc-agenda-axis " + headerClass + "'>&nbsp;</td>";
+        s+= "</tr><tr><th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
+
+        for (i=0; i< t.daysCnt; i++) {
+            s += "<th colspan='" + resources.length + "' class='fc-daygutter " + headerClass + "'></th>"; // fc- needed for setDayID
+        }
+        s+= "</tr><tr><th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 
         for (i=0; i<colCnt; i++) {
-            s += "<th class='fc- fc-col" + i + ' ' + headerClass + " fc-res-" + resources[i%resources.length].id + "'/>"; // fc- needed for setDayID
+            s += "<th class='fc-col" + i + " " + headerClass + " fc-res-" + resources[i%resources.length].id + " fc-reshead'/>"; // fc- needed for setDayID
         }
 
 		s +=
@@ -232,7 +233,7 @@ function ResourceView(element, calendar, viewName) {
 		for (i=0; i<colCnt; i++) {
             var res = Math.ceil((i + 1)/(colCnt/resources.length)) - 1;
 			s +=
-				"<td class='fc- fc-col" + i + ' ' + contentClass + " fc-res-" + resources[res].id + "'>" + // fc- needed for setDayID
+				"<td class='fc-col" + i + " " + contentClass + " fc-res-" + resources[res].id + "'>" + // fc- needed for setDayID
 				"<div>" +
 				"<div class='fc-day-content'>" +
 				"<div style='position:relative'>&nbsp;</div>" +
@@ -247,8 +248,8 @@ function ResourceView(element, calendar, viewName) {
 			"</table>";
 		dayTable = $(s).appendTo(element);
 		dayHead = dayTable.find('thead');
-		dayHeadCells = dayHead.find('td').slice(0, -1);
-        resHeadCells = dayHead.find('th').slice(1, -1);
+		dayHeadCells = dayHead.find('th.fc-dayhead');
+        resHeadCells = dayHead.find('th.fc-reshead');
 		dayBody = dayTable.find('tbody');
 		dayBodyCells = dayBody.find('td').slice(0, -1);
 		dayBodyCellInners = dayBodyCells.find('div.fc-day-content div');
@@ -334,6 +335,7 @@ function ResourceView(element, calendar, viewName) {
 			addMinutes(d, opt('slotMinutes'));
 			slotCnt++;
 		}
+
 		s +=
 			"</tbody>" +
 			"</table>";
