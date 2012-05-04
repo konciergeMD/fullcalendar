@@ -85,6 +85,7 @@ function ResourceView(element, calendar, viewName) {
 	var dayTable;
 	var dayHead;
 	var dayHeadCells;
+    var resHeadCells;
 	var dayBody;
 	var dayBodyCells;
 	var dayBodyCellInners;
@@ -358,7 +359,7 @@ function ResourceView(element, calendar, viewName) {
 		for (i=0; i<colCnt; i++) {
             var dow = Math.ceil((i + 1)/(colCnt/ t.daysCnt)) - 1;
 			date = colDate(dow); 	// PA massive hack of existing code, but this needs to be changed to support working hours anyway!
-            dayHeadCell = dayHeadCells.eq(dow).html(formatDate(date, 'dddd'));
+            var dayHeadCell = dayHeadCells.eq(dow).html(formatDate(date, 'dddd'));
 			headCell = resHeadCells.eq(i);
             headCell.addClass('fc-daycol' + dow);
 			if(resources.length > 0) {
