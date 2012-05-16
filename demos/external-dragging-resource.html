@@ -12,39 +12,40 @@
 <script type='text/javascript'>
 
 	$(document).ready(function() {
-	
-	
+
+
 		/* initialize the external events
 		-----------------------------------------------------------------*/
-	
+
 		$('#external-events div.external-event').each(function() {
-		
+
 			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
 			// it doesn't need to have a start or end
 			var eventObject = {
 				title: $.trim($(this).text()), // use the element's text as the event title
 				resourceId: parseInt($(this).attr('employee'))
 			};
-			
+
 			// store the Event Object in the DOM element so we can get to it later
 			$(this).data('eventObject', eventObject);
-			
+
 			// make the event draggable using jQuery UI
 			$(this).draggable({
 				zIndex: 999,
 				revert: true,      // will cause the event to go back to its
 				revertDuration: 0  //  original position after the drag
 			});
-			
+
 		});
-	
-	
+
+
 		/* initialize the calendar
 		-----------------------------------------------------------------*/
-		
+
 		$('#calendar').fullCalendar({
             defaultView: 'resourceWeek',
-            slotMinutes: 15,
+            slotMinutes: 5,
+            gridMinutes: 15,
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -88,7 +89,14 @@
 					color: 'yellow',
 					textColor: 'black',
                     shortName: 'JY'
-				}
+				},{
+                    id: 6,
+                    name: 'Jane Black',
+                    color: 'black',
+                    textColor: 'black',
+                    shortName: 'JY'
+                }
+
 			],
 			events: [
 				{
@@ -115,7 +123,7 @@
             ],
 		selectable: true,
 		selectHelper: true,
-		select: function(start, end, allDay,ev,res) {				
+		select: function(start, end, allDay,ev,res) {
 				var title = prompt('Event Title:');
 				if (title) {
 				if(res)
@@ -138,7 +146,7 @@
 							title: title,
 							start: start,
 							end: end,
-							allDay: allDay							
+							allDay: allDay
 						},
 						true // make the event "stick"
 					);
@@ -149,38 +157,38 @@
 			editable: true,
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay, ev, ui, res) { // this function is called when something is dropped
-			
+
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
-				
+
 				// we need to copy it, so that multiple events don't have a reference to the same object
 				var copiedEventObject = $.extend({}, originalEventObject);
-				
+
 				// assign it the date that was reported
 				copiedEventObject.start = date;
 				copiedEventObject.allDay = allDay;
-				
+
 				// dropped event of resource a to a cell belonging to resource b?
 				if (res && res.id != copiedEventObject.resourceId) {
 				    if (!confirm('Wrong column. Do you want me to correct that?')) {
 				        copiedEventObject.resourceId = res.id;
 				    }
 				}
-				
+
 				// render the event on the calendar
 				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 				$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-				
+
 				// is the "remove after drop" checkbox checked?
 				if ($('#drop-remove').is(':checked')) {
 					// if so, remove the element from the "Draggable Events" list
 					$(this).remove();
 				}
-				
+
 			}
 		});
-		
-		
+
+
 	});
 
 </script>
@@ -192,12 +200,12 @@
 		font-size: 14px;
 		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 		}
-		
+
 	#wrap {
 		width: 1100px;
 		margin: 0 auto;
 		}
-		
+
 	#external-events {
 		float: left;
 		width: 150px;
@@ -206,13 +214,13 @@
 		background: #eee;
 		text-align: left;
 		}
-		
+
 	#external-events h4 {
 		font-size: 16px;
 		margin-top: 0;
 		padding-top: 1em;
 		}
-		
+
 	.external-event { /* try to mimick the look of a real event */
 		margin: 10px 0;
 		padding: 2px 4px;
@@ -221,13 +229,13 @@
 		font-size: .85em;
 		cursor: pointer;
 		}
-		
+
 	#external-events p {
 		margin: 1.5em 0;
 		font-size: 11px;
 		color: #666;
 		}
-		
+
 	#external-events p input {
 		margin: 0;
 		vertical-align: middle;

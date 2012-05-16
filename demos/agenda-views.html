@@ -12,17 +12,17 @@
 				<script type='text/javascript'>
 
 					$(document).ready(function() {
-					
+
 						var date = new Date();
 						var d = date.getDate();
 						var m = date.getMonth();
 						var y = date.getFullYear();
-						
+
 						$('#calendar').fullCalendar({
 							header: {
 								left: 'prev,next today',
 								center: 'title',
-								right: 'resourceDay,month,agendaWeek,agendaDay'
+								right: 'resourceDay,resourceWeek'
 							},
 							editable: true,
 							dateReformatter: function(dt, orig){
@@ -111,11 +111,11 @@
 								}
 							]
 						});
-						
+
 					});
 
 					function addRes() {
-						var newResource = 	
+						var newResource =
 								{
 									id: 3,
 									name: 'Robert White',
@@ -127,12 +127,12 @@
 					function remRes() {
 						resources = $('#calendar').fullCalendar( 'removeEventResource', 3 );
 					}
-					
+
 					function applyClass(resources, matchClass, unmatchClass){
 						var all = resources.indexOf('*')  > -1;
 						var todisplay = $('#calendar').fullCalendar( 'clientEvents', function(eo){
 							if (all){
-								eo.className = matchClass;											
+								eo.className = matchClass;
 							}else{
 								var id = '';
 								if (eo.resource){

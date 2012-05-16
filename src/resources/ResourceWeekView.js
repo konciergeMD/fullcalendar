@@ -32,6 +32,7 @@ function ResourceWeekView(element, calendar) {
 		t.start = t.visStart = start;
 		t.end = t.visEnd = end;
         t.daysCnt = days;
+        t.gridMinutes = opt('gridMinutes');
 		renderResourceView(rebuildSkeleton);
 	}
 }
