@@ -3,84 +3,85 @@
 ------------------------------------------------------------------------*/
 
 .fc-agenda table {
-	border-collapse: separate;
-	}
+    border-collapse: separate;
+}
 
 .fc-agenda-days th {
-	text-align: center;
-	}
+    text-align: center;
+}
 
 .fc-agenda .fc-agenda-axis {
-	width: 50px;
-	padding: 0 4px;
-	vertical-align: middle;
-	text-align: right;
-	white-space: nowrap;
-	font-weight: normal;
-    font-size: 8px;
-	}
+    width: 50px;
+    padding: 0 2px;
+    vertical-align: middle;
+    text-align: right;
+    white-space: nowrap;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 11px;
+}
 
 .fc-agenda .fc-day-content {
-	padding: 2px 2px 1px;
-	}
+    padding: 2px 2px 1px;
+}
 
 /* make axis border take precedence */
 
 .fc-agenda-days .fc-agenda-axis {
-	border-right-width: 1px;
-	}
+    border-right-width: 1px;
+}
 
 .fc-agenda-days .fc-col0 {
-	border-left-width: 0;
-	}
+    border-left-width: 0;
+}
 
 /* all-day area */
 
 .fc-agenda-allday th {
-	border-width: 0 1px;
-	}
+    border-width: 0 1px;
+}
 
 .fc-agenda-allday .fc-day-content {
-	min-height: 34px; /* TODO: doesnt work well in quirksmode */
-	_height: 34px;
-	}
+    min-height: 34px; /* TODO: doesnt work well in quirksmode */
+    _height: 34px;
+}
 
 /* divider (between all-day and slots) */
 
 .fc-agenda-divider-inner {
-	height: 2px;
-	overflow: hidden;
-	}
+    height: 2px;
+    overflow: hidden;
+}
 
 .fc-widget-header .fc-agenda-divider-inner {
-	background: #eee;
-	}
+    background: #eee;
+}
 
 /* slot rows */
 
 .fc-agenda-slots th {
-	border-width: 1px 1px 0;
-	}
+    border-width: 1px 1px 0;
+}
 
 .fc-agenda-slots td {
-	border-width: 1px 0 0;
-	background: none;
-	}
+    border-width: 1px 0 0;
+    background: none;
+}
 
 .fc-agenda-slots td div {
-	height: 12px;
-	}
+    height: 12px;
+}
 
 .fc-agenda-slots tr.fc-slot0 th,
 .fc-agenda-slots tr.fc-slot0 td {
-	border-top-width: 0;
-	}
+    border-top-width: 0;
+}
 
 .fc-agenda-slots tr.fc-minor th,
 .fc-agenda-slots tr.fc-minor td {
-	border-top-style: dotted;
+    border-top-style: dotted;
     border-top-color: #f0f0f0;
-	}
+}
 
 .fc-agenda-slots tr.fc-gridmin th,
 .fc-agenda-slots tr.fc-gridmin td {
@@ -91,12 +92,12 @@
 .fc-agenda-slots tr.fc-gridhour th,
 .fc-agenda-slots tr.fc-gridhour td {
     border-top: 2px solid #ccc !important;
-    //border-top-color: #ccc;
+//border-top-color: #ccc;
 }
 
 .fc-agenda-slots tr.fc-minor th.ui-widget-header {
-	*border-top-style: solid; /* doesn't work with background in IE6/7 */
-	}
+    *border-top-style: solid; /* doesn't work with background in IE6/7 */
+}
 
 .fc-daygutter{
     border-right: 1px solid #ccc !important;

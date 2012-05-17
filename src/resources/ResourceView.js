@@ -14,9 +14,10 @@ setDefaults({
 	},
 	minTime: 0,
 	maxTime: 24,
-    showDayGutter: true,
     showWeekGutter: true,
-    gridMinutes: 15
+    gridMinutes: 15,
+    showDayGutter: false,
+    showResourceGutter: false
 });
 
 
@@ -81,7 +82,6 @@ function ResourceView(element, calendar, viewName) {
 	var daySelectionMousedown = t.daySelectionMousedown;
 	var slotSegHtml = t.slotSegHtml;
 	var formatDate = calendar.formatDate;
-    var gridMinutes = t.gridMinutes;
 
 	// locals
 
@@ -213,21 +213,36 @@ function ResourceView(element, calendar, viewName) {
 			"<tr>" +
 			"<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 
+        //Day Columns
         for (i=0; i< t.daysCnt; i++) {
             s += "<th colspan='" + resources.length + "' class='fc-col" + i + " " + headerClass + " fc-dayhead'/>"; // fc- needed for setDayID
         }
-        s+= "</tr><tr><th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 
-        for (i=0; i< t.daysCnt; i++) {
-            s += "<th colspan='" + resources.length + "' class='fc-daygutter'></th>"; // fc- needed for setDayID
+        //Day Gutter Columns
+        if (t.showDayGutter){
+            s+= "</tr><tr><th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
+            for (i=0; i< t.daysCnt; i++) {
+                s += "<th colspan='" + resources.length + "' class='fc-daygutter'></th>"; // fc- needed for setDayID
+            }
         }
-        s+= "</tr><tr><th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 
+        //Resource columns
+        s+= "</tr><tr><th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
         for (i=0; i<colCnt; i++) {
             var last = (i%resources.length == resources.length - 1)?' fc-lastres':'';
             s += "<th class='fc-col" + i + " " + headerClass + " fc-res-" + resources[i%resources.length].id + " fc-reshead "+ last +"'/>"; // fc- needed for setDayID
         }
 
+        //Resource Gutter Columns
+        if (t.showResourceGutter){
+            s+= "</tr><tr><th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
+            for (i=0; i<colCnt; i++) {
+                var last = (i%resources.length == resources.length - 1)?' fc-lastres':'';
+                s += "<th class='fc-col" + i + " " + headerClass + " fc-res-" + resources[i%resources.length].id + " fc-resgutter "+ last +"'/>"; // fc- needed for setDayID
+            }
+        }
+
+        //Agenda Gutter
 		s +=
 			"<th class='fc-agenda-gutter " + headerClass + "'>&nbsp;</th>" +
 			"</tr>" +

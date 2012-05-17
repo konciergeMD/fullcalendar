@@ -10,15 +10,15 @@ var defaults = {
 		right: 'today prev,next'
 	},
 	weekends: true,
-	
+
 	// editing
 	//editable: false,
 	//disableDragging: false,
 	//disableResizing: false,
-	
+
 	allDayDefault: true,
 	ignoreTimezone: true,
-	
+
 	// event ajax
 	lazyFetching: true,
 	startParam: 'start',
@@ -27,11 +27,11 @@ var defaults = {
 	dateReformatter: function(){},
 	eventPreprocessor : function(events){ return events; },
 	/*End JS Edits*/
-	
+
 	// time formats
 	titleFormat: {
 		month: 'MMMM yyyy',
-		week: "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
+		week: "MMM d[ yyyy]{ '-'[ MMM] d, yyyy}",
 		day: 'dddd, MMM d, yyyy'
 	},
 	columnFormat: {
@@ -42,7 +42,7 @@ var defaults = {
 	timeFormat: { // for event elements
 		'': 'h(:mm)t' // default
 	},
-	
+
 	// locale
 	isRTL: false,
 	firstDay: 0,
@@ -61,19 +61,19 @@ var defaults = {
 		day: 'day',
 		resourceDay: 'resource'
 	},
-	
+
 	// jquery-ui theming
 	theme: false,
 	buttonIcons: {
 		prev: 'circle-triangle-w',
 		next: 'circle-triangle-e'
 	},
-	
+
 	//selectable: false,
 	unselectAuto: true,
-	
+
 	dropAccept: '*'
-	
+
 };
 
 // right-to-left defaults

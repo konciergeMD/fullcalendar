@@ -28,11 +28,18 @@ function ResourceWeekView(element, calendar) {
         var start = addDays(cloneDate(date), -((date.getDay() - opt('firstDay') + days) % days));
         var end = addDays(cloneDate(start), days);
 
-		t.title = formatDate(date, opt('titleFormat'));
+        t.title = formatDates(
+                start,
+                addDays(cloneDate(end), -1),
+                opt('titleFormat')
+        );
+
 		t.start = t.visStart = start;
 		t.end = t.visEnd = end;
         t.daysCnt = days;
         t.gridMinutes = opt('gridMinutes');
+        t.showDayGutter = opt('showDayGutter');
+        t.showResourceGutter = opt('showResourceGutter');
 		renderResourceView(rebuildSkeleton);
 	}
 }

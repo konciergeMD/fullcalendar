@@ -31,6 +31,8 @@ function ResourceDayView(element, calendar) {
 		t.end = t.visEnd = end;
         t.daysCnt = 1;
         t.gridMinutes = opt('gridMinutes');
+        t.showDayGutter = opt('showDayGutter');
+        t.showResourceGutter = opt('showResourceGutter');
 		renderResourceView(rebuildSkeleton);
 	}
 }
