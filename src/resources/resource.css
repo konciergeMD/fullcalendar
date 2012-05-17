@@ -68,7 +68,7 @@
 	}
 
 .fc-agenda-slots td div {
-	height: 20px;
+	height: 12px;
 	}
 
 .fc-agenda-slots tr.fc-slot0 th,
@@ -78,12 +78,20 @@
 
 .fc-agenda-slots tr.fc-minor th,
 .fc-agenda-slots tr.fc-minor td {
-	border-top-style: none;
+	border-top-style: dotted;
+    border-top-color: #f0f0f0;
 	}
 
-.fc-agenda-slots tr.fc-grid th,
-.fc-agenda-slots tr.fc-grid td {
-    border-top-style: dotted !important;
+.fc-agenda-slots tr.fc-gridmin th,
+.fc-agenda-slots tr.fc-gridmin td {
+    border-top-style: solid !important;
+    border-top-color: #ddd;
+}
+
+.fc-agenda-slots tr.fc-gridhour th,
+.fc-agenda-slots tr.fc-gridhour td {
+    border-top: 2px solid #ccc !important;
+    //border-top-color: #ccc;
 }
 
 .fc-agenda-slots tr.fc-minor th.ui-widget-header {

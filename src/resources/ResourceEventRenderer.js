@@ -1,16 +1,16 @@
 
 function ResourceEventRenderer() {
 	var t = this;
-	
-	
+
+
 	// exports
 	t.renderEvents = renderEvents;
 	t.compileDaySegs = compileDaySegs; // for DayEventRenderer
 	t.clearEvents = clearEvents;
 	t.slotSegHtml = slotSegHtml;
 	t.bindDaySeg = bindDaySeg;
-	
-	
+
+
 	// imports
 	DayEventRenderer.call(t);
 	var opt = t.opt;
@@ -49,10 +49,10 @@ function ResourceEventRenderer() {
 	var calendar = t.calendar;
 	var formatDate = calendar.formatDate;
 	var formatDates = calendar.formatDates;
-	
+
 	/* Rendering
 	----------------------------------------------------------------------------*/
-	
+
 
 	function renderEvents(events, modifiedEventId) {
 		reportEvents(events);
@@ -73,15 +73,15 @@ function ResourceEventRenderer() {
 		}
 		renderSlotSegs(compileSlotSegs(slotEvents), modifiedEventId);
 	}
-	
-	
+
+
 	function clearEvents() {
 		reportEventClear();
 		getDaySegmentContainer().empty();
 		getSlotSegmentContainer().empty();
 	}
-	
-	
+
+
 	function compileDaySegs(events) {
 		var levels = stackSegs(sliceSegs(events, $.map(events, exclEndDay), t.visStart, t.visEnd)),
 			i, levelCnt=levels.length, level,
@@ -99,8 +99,8 @@ function ResourceEventRenderer() {
 		}
 		return segs;
 	}
-	
-	
+
+
 	function compileSlotSegs(events) {
 		var colCnt = getColCnt(),
 			minMinute = getMinMinute(),
@@ -134,11 +134,11 @@ function ResourceEventRenderer() {
 		}
 		return segs;
 	}
-	
+
 	function eventsForResource(resource, events) {
 		var resEvents = [],
 		    i;
-		
+
 		for(i=0; i<events.length; i++) {
 			if(events[i].resource) {
 				if(events[i].resource.id == resource.id) {
@@ -148,12 +148,12 @@ function ResourceEventRenderer() {
 		}
 		return resEvents;
 	}
-	
+
 	function visEventEndsForResource(resource, events) {
 		var resEvents = [],
 		    i,
 		    visEventEnds;
-		
+
 		for(i=0; i<events.length; i++) {
 			if(events[i].resource) {
 				if(events[i].resource.id == resource.id) {
@@ -161,13 +161,13 @@ function ResourceEventRenderer() {
 				}
 			}
 		}
-		
+
 		visEventEnds = $.map(resEvents, slotEventEnd)
-		
+
 		return visEventEnds;
-	
+
 	}
-	
+
 	function slotEventEnd(event) {
 		if (event.end) {
 			return cloneDate(event.end);
@@ -175,11 +175,11 @@ function ResourceEventRenderer() {
 			return addMinutes(cloneDate(event.start), opt('defaultEventMinutes'));
 		}
 	}
-	
+
 	// renders events in the 'time slots' at the bottom
-	
+
 	function renderSlotSegs(segs, modifiedEventId) {
-	
+
 		var i, segCnt=segs.length, seg,
 			event,
 			classes,
@@ -201,7 +201,7 @@ function ResourceEventRenderer() {
 			slotSegmentContainer = getSlotSegmentContainer(),
 			rtl, dis, dit,
 			colCnt = getColCnt();
-			
+
 		if (rtl = opt('isRTL')) {
 			dis = -1;
 			dit = colCnt - 1;
@@ -209,7 +209,7 @@ function ResourceEventRenderer() {
 			dis = 1;
 			dit = 0;
 		}
-			
+
 		// calculate position/dimensions, create html
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -245,7 +245,7 @@ function ResourceEventRenderer() {
 		}
 		slotSegmentContainer[0].innerHTML = html; // faster than html()
 		eventElements = slotSegmentContainer.children();
-		
+
 		// retrieve elements, run through eventRender callback, bind event handlers
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -274,9 +274,9 @@ function ResourceEventRenderer() {
 				reportEventElement(event, eventElement);
 			}
 		}
-		
+
 		lazySegBind(slotSegmentContainer, segs, bindSlotSeg);
-		
+
 		// record event sides and title positions
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -291,7 +291,7 @@ function ResourceEventRenderer() {
 				}
 			}
 		}
-		
+
 		// set all positions/dimensions at once
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -310,13 +310,13 @@ function ResourceEventRenderer() {
 				trigger('eventAfterRender', event, event, eventElement);
 			}
 		}
-					
+
 	}
-	
+
 	function slotSegHtml(event, seg) {
 		var html = "<";
 		var url = event.url;
-		
+
 		var skinCss = $('');
 		if(event.resource) {
 			skinCss = getSkinCssWithResource(event, event.resource); // PA TODO - merge getSkinCssWithResource into getSkinCss
@@ -324,7 +324,7 @@ function ResourceEventRenderer() {
 		else {
 			skinCss = getSkinCss(event, opt);
 		}
-		
+
 		var skinCssAttr = (skinCss ? " style='" + skinCss + "'" : '');
 		var classes = ['fc-event', 'fc-event-skin', 'fc-event-vert'];
 		if (isEventDraggable(event)) {
@@ -370,8 +370,8 @@ function ResourceEventRenderer() {
 			"</" + (url ? "a" : "div") + ">";
 		return html;
 	}
-	
-	
+
+
 	function bindDaySeg(event, eventElement, seg) {
 		if (isEventDraggable(event)) {
 			draggableDayEvent(event, eventElement, seg.isStart);
@@ -382,8 +382,8 @@ function ResourceEventRenderer() {
 		eventElementHandlers(event, eventElement);
 			// needs to be after, because resizableDayEvent might stopImmediatePropagation on click
 	}
-	
-	
+
+
 	function bindSlotSeg(event, eventElement, seg) {
 		var timeElement = eventElement.find('div.fc-event-time');
 		if (isEventDraggable(event)) {
@@ -394,15 +394,15 @@ function ResourceEventRenderer() {
 		}
 		eventElementHandlers(event, eventElement);
 	}
-	
-	
-	
+
+
+
 	/* Dragging
 	-----------------------------------------------------------------------------------*/
-	
-	
+
+
 	// when event starts out FULL-DAY
-	
+
 	function draggableDayEvent(event, eventElement, isStart) {
 		var origWidth;
 		var revert;
@@ -482,7 +482,7 @@ function ResourceEventRenderer() {
 							+ minMinute
 							- (event.start.getHours() * 60 + event.start.getMinutes());
 					}
-					
+
 					// resource changed?
 					if (event.resource) {
     					var newColumn = event.resource._col + columnDelta;
@@ -490,7 +490,7 @@ function ResourceEventRenderer() {
 					    event.resource = resources[newColumn];
 					    event.resource._col = newColumn;
     				}
-					
+
 					eventDrop(this, event, dayDelta, minuteDelta, allDay, ev, ui);
 				}
 				//setOverflowHidden(false);
@@ -506,10 +506,10 @@ function ResourceEventRenderer() {
 			}
 		}
 	}
-	
-	
+
+
 	// when event starts out IN TIMESLOTS
-	
+
 	function draggableSlotEvent(event, eventElement, timeElement) {
 		var origPosition;
 		var allDay=false;
@@ -550,7 +550,7 @@ function ResourceEventRenderer() {
 								timeElement.hide();
 								eventElement.draggable('option', 'grid', null);
 							}
-							
+
 							renderResourceOverlay(newColumn);
 						}else{
 							// on slots
@@ -576,7 +576,7 @@ function ResourceEventRenderer() {
 				if (cell && (columnDelta || minuteDelta || allDay)) {
 					// changed!
 					resources = calendar.getResources();
-					event.resource = resources[newColumn];
+					event.resource = resources[newColumn % resources.length];
 					event.resource._col = newColumn;
 					eventDrop(this, event, dayDelta, allDay ? 0 : minuteDelta, allDay, ev, ui);
 				}else{
@@ -606,13 +606,13 @@ function ResourceEventRenderer() {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	/* Resizing
 	--------------------------------------------------------------------------------------*/
-	
-	
+
+
 	function resizableSlotEvent(event, eventElement, timeElement) {
 		var slotDelta, prevSlotDelta;
 		var slotHeight = getSlotHeight();
@@ -654,7 +654,7 @@ function ResourceEventRenderer() {
 			}
 		});
 	}
-	
+
 
 }
 

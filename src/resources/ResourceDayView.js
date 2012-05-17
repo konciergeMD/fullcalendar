@@ -3,20 +3,20 @@ fcViews.resourceDay = ResourceDayView;
 
 function ResourceDayView(element, calendar) {
 	var t = this;
-	
-	
+
+
 	// exports
 	t.render = render;
-	
-	
+
+
 	// imports
 	ResourceView.call(t, element, calendar, 'resourceDay');
 	var opt = t.opt;
 	var renderResourceView = t.renderResourceView;
 	var formatDate = calendar.formatDate;
-	
-	
-	
+
+
+
 	function render(date, delta, rebuildSkeleton) {
 		if (delta) {
 			addDays(date, delta);
@@ -30,6 +30,7 @@ function ResourceDayView(element, calendar) {
 		t.start = t.visStart = start;
 		t.end = t.visEnd = end;
         t.daysCnt = 1;
+        t.gridMinutes = opt('gridMinutes');
 		renderResourceView(rebuildSkeleton);
 	}
 }

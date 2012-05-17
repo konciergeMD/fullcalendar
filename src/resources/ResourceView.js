@@ -15,7 +15,8 @@ setDefaults({
 	minTime: 0,
 	maxTime: 24,
     showDayGutter: true,
-    showWeekGutter: true
+    showWeekGutter: true,
+    gridMinutes: 15
 });
 
 
@@ -328,11 +329,12 @@ function ResourceView(element, calendar, viewName) {
 		slotCnt = 0;
 		for (i=0; d < maxd; i++) {
 			minutes = d.getMinutes();
-            grid = (minutes % t.gridMinutes == 0) ? ' fc-grid': '';
+            gridMins = (minutes % t.gridMinutes == 0) ? ' fc-gridmin': '';
+            gridHour = (minutes == 0) ? ' fc-gridhour': '';
 			s +=
-				"<tr class='fc-slot" + i + ' ' + (!minutes ? '' : 'fc-minor') + grid + "'>" +
+				"<tr class='fc-slot" + i + ' ' + (!minutes ? '' : 'fc-minor') + gridMins + gridHour + "'>" +
 				"<th class='fc-agenda-axis " + headerClass + "'>" +
-                (grid?((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;'):'') +
+                (gridMins?((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;'):'') +
 				"</th>" +
 				"<td class='" + contentClass + "'>" +
 				"<div style='position:relative'>&nbsp;</div>" +
