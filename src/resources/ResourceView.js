@@ -329,8 +329,8 @@ function ResourceView(element, calendar, viewName) {
 		slotCnt = 0;
 		for (i=0; d < maxd; i++) {
 			minutes = d.getMinutes();
-            gridMins = (minutes % t.gridMinutes == 0) ? ' fc-gridmin': '';
-            gridHour = (minutes == 0) ? ' fc-gridhour': '';
+            var gridMins = (minutes % t.gridMinutes == 0) ? ' fc-gridmin': '';
+            var gridHour = (minutes == 0) ? ' fc-gridhour': '';
 			s +=
 				"<tr class='fc-slot" + i + ' ' + (!minutes ? '' : 'fc-minor') + gridMins + gridHour + "'>" +
 				"<th class='fc-agenda-axis " + headerClass + "'>" +
