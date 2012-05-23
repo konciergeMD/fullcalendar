@@ -538,7 +538,7 @@ function ResourceEventRenderer() {
 				hoverListener.start(function(cell, origCell, rowDelta, colDelta) {
 					eventElement.draggable('option', 'revert', !cell);
 					clearOverlays();
-                    resources = calendar.getResources();
+                    var resources = calendar.getResources();
 					if (cell) {
 						dayDelta = Math.floor(cell.col / resources.length) - Math.floor(origCell.col / resources.length); // TODO - make this work for days + resources?
 						columnDelta = colDelta;
@@ -576,7 +576,7 @@ function ResourceEventRenderer() {
 				trigger('eventDragStop', eventElement, event, ev, ui);
 				if (cell && (columnDelta || minuteDelta || allDay)) {
 					// changed!
-					resources = calendar.getResources();
+					var resources = calendar.getResources();
 					event.resource = resources[newColumn % resources.length];
 					event.resource._col = newColumn;
 					eventDrop(this, event, dayDelta, allDay ? 0 : minuteDelta, allDay, ev, ui);
