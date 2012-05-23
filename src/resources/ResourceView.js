@@ -18,7 +18,7 @@ setDefaults({
     gridMinutes: 15,
     showDayGutter: false,
     showResourceGutter: false,
-    isAfterHours: function(mins){
+    isGrayedOut: function(mins){
         if ((mins < 480)||(mins >= 1020)||((mins >= 720 )&&(mins<780)))return true;
         return false;
     }
@@ -355,7 +355,7 @@ function ResourceView(element, calendar, viewName) {
 				"<th class='fc-agenda-axis " + headerClass + "'>" +
                 (gridMins?((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;'):'') +
 				"</th>";
-            s += "<td class='" + contentClass + "'><div style='position:relative;' class='" + getOverlay(d) + "'>&nbsp;</div></td>";
+            s += "<td class='" + contentClass + "'><div style='position:relative;' class='" + getRowClass(d) + "'>&nbsp;</div></td>";
             s += "</tr>";
 			addMinutes(d, opt('slotMinutes'));
 			slotCnt++;
@@ -914,13 +914,8 @@ function ResourceView(element, calendar, viewName) {
 		}
 	}
 
-    function getOverlay(dt){
+    function getRowClass(dt){
         var mins = dt.getMinutes() + (dt.getHours() * 60);
-        if (t.isAfterHours(mins))return 'web';
-        /*if ((mins < 480)||(mins >= 1020)||((mins >= 720 )&&(mins<840))){
-            return 'web';
-        }else{
-            return '';
-        }*/
+        if (t.isGrayedOut(mins))return 'fc-grayedout';
     }
 }

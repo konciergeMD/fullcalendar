@@ -40,7 +40,7 @@ function ResourceWeekView(element, calendar) {
         t.gridMinutes = opt('gridMinutes');
         t.showDayGutter = opt('showDayGutter');
         t.showResourceGutter = opt('showResourceGutter');
-        t.isAfterHours = opt('isAfterHours');
+        t.isGrayedOut = opt('isGrayedOut');
 		renderResourceView(rebuildSkeleton);
 	}
 }

@@ -171,4 +171,9 @@
 	_overflow: hidden;
 	}
 
+.fc-grayedout{
+    background: #ddd;
+    opacity: .5;
+}
+
 

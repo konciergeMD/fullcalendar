@@ -53,6 +53,10 @@
 				center: 'title',
 				right: 'month,agendaWeek,resourceDay,resourceWeek'
 			},
+            isGrayedOut: function(mins){
+                if ((mins < 480)||(mins >= 1020)||((mins >= 720 )&&(mins<840)))return true;
+                return false;
+            },
 			resources: [
 				{
 					/*
