@@ -33,6 +33,7 @@ function ResourceDayView(element, calendar) {
         t.gridMinutes = opt('gridMinutes');
         t.showDayGutter = opt('showDayGutter');
         t.showResourceGutter = opt('showResourceGutter');
+        t.isAfterHours = opt('isAfterHours');
 		renderResourceView(rebuildSkeleton);
 	}
 }

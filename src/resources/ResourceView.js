@@ -17,7 +17,11 @@ setDefaults({
     showWeekGutter: true,
     gridMinutes: 15,
     showDayGutter: false,
-    showResourceGutter: false
+    showResourceGutter: false,
+    isAfterHours: function(mins){
+        if ((mins < 480)||(mins >= 1020)||((mins >= 720 )&&(mins<780)))return true;
+        return false;
+    }
 });
 
 
@@ -350,14 +354,12 @@ function ResourceView(element, calendar, viewName) {
 				"<tr class='fc-slot" + i + ' ' + (!minutes ? '' : 'fc-minor') + gridMins + gridHour + "'>" +
 				"<th class='fc-agenda-axis " + headerClass + "'>" +
                 (gridMins?((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;'):'') +
-				"</th>" +
-				"<td class='" + contentClass + "'>" +
-				"<div style='position:relative'>&nbsp;</div>" +
-				"</td>" +
-				"</tr>";
+				"</th>";
+            s += "<td class='" + contentClass + "'><div style='position:relative;' class='" + getOverlay(d) + "'>&nbsp;</div></td>";
+            s += "</tr>";
 			addMinutes(d, opt('slotMinutes'));
 			slotCnt++;
-		}
+        }
 
 		s +=
 			"</tbody>" +
@@ -380,7 +382,8 @@ function ResourceView(element, calendar, viewName) {
 		var today = clearTime(new Date());
 		for (i=0; i<colCnt; i++) {
             var dow = Math.ceil((i + 1)/(colCnt/ t.daysCnt)) - 1;
-			date = colDate(dow); 	// PA massive hack of existing code, but this needs to be changed to support working hours anyway!
+			//date = colDate(dow); 	// PA massive hack of existing code, but this needs to be changed to support working hours anyway!
+            date = addDays(cloneDate(t.visStart), dow*dis+dit);
             var dayHeadCell = dayHeadCells.eq(dow).html(formatDate(date, 'dddd'));
 			headCell = resHeadCells.eq(i);
             headCell.addClass('fc-daycol' + dow);
@@ -680,7 +683,8 @@ function ResourceView(element, calendar, viewName) {
 
 
 	function colDate(col) { // returns dates with 00:00:00
-		return addDays(cloneDate(t.visStart), col*dis+dit);
+        var res = Math.floor(col / calendar.getResources().length);
+		return addDays(cloneDate(t.visStart), res);
 	}
 
 
@@ -905,11 +909,18 @@ function ResourceView(element, calendar, viewName) {
 		    var resource = resources[cell.col];
 		    var dDrop = cellDate(cell);
 		    var dViewing = t.visStart;
-		    setYMD(dDrop, dViewing.getFullYear(), dViewing.getMonth(), dViewing.getDate());
-
+		    //setYMD(dDrop, dViewing.getFullYear(), dViewing.getMonth(), dViewing.getDate());
 			trigger('drop', _dragElement, dDrop, cellIsAllDay(cell), ev, ui, resource);
 		}
 	}
 
-
+    function getOverlay(dt){
+        var mins = dt.getMinutes() + (dt.getHours() * 60);
+        if (t.isAfterHours(mins))return 'web';
+        /*if ((mins < 480)||(mins >= 1020)||((mins >= 720 )&&(mins<840))){
+            return 'web';
+        }else{
+            return '';
+        }*/
+    }
 }

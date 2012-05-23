@@ -538,8 +538,9 @@ function ResourceEventRenderer() {
 				hoverListener.start(function(cell, origCell, rowDelta, colDelta) {
 					eventElement.draggable('option', 'revert', !cell);
 					clearOverlays();
+                    resources = calendar.getResources();
 					if (cell) {
-						dayDelta = 0; // TODO - make this work for days + resources?
+						dayDelta = Math.floor(cell.col / resources.length) - Math.floor(origCell.col / resources.length); // TODO - make this work for days + resources?
 						columnDelta = colDelta;
 						newColumn = cell.col;
 						if (opt('allDaySlot') && !cell.row) {
