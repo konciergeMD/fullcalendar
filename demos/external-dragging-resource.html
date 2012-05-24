@@ -173,6 +173,8 @@
 				// assign it the date that was reported
 				copiedEventObject.start = date;
 				copiedEventObject.allDay = allDay;
+                if (copiedEventObject.resourceId == 5)
+                    copiedEventObject.staticEventClass = 'flat-event';
 
 				// dropped event of resource a to a cell belonging to resource b?
 				if (res && res.id != copiedEventObject.resourceId) {
@@ -234,7 +236,14 @@
 		color: #fff;
 		font-size: .85em;
 		cursor: pointer;
+        height: 30px;
 		}
+
+    .flat-event{
+        background: black;
+        border-radius: 0;
+        opacity: .5;
+    }
 
 	#external-events p {
 		margin: 1.5em 0;
@@ -273,6 +282,7 @@
 <div class='external-event' employee='3' style="background-color: pink;">Resource 3</div>
 <div class='external-event' employee='4' style="background-color: green;">Resource 4</div>
 <div class='external-event' employee='5' style="background-color: yellow;">Resource 5</div>
+<div class='external-event' employee='5' style="background-color: black;">Resource 6</div>
 <p>
 <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 </p>

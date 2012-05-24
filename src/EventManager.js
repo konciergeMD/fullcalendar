@@ -12,8 +12,8 @@ var eventGUID = 1;
 
 function EventManager(options, _sources, _resources) {
 	var t = this;
-	
-	
+
+
 	// exports
 	t.isFetchNeeded = isFetchNeeded;
 	t.fetchEvents = fetchEvents;
@@ -25,14 +25,14 @@ function EventManager(options, _sources, _resources) {
 	t.clientEvents = clientEvents;
 	t.normalizeEvent = normalizeEvent;
 	t.associateResourceWithEvent = associateResourceWithEvent;
-	
-	
+
+
 	// imports
 	var trigger = t.trigger;
 	var getView = t.getView;
 	var reportEvents = t.reportEvents;
-	
-	
+
+
 	// locals
 	var stickySource = { events: [] };
 	var sources = [ stickySource ];
@@ -42,22 +42,22 @@ function EventManager(options, _sources, _resources) {
 	var loadingLevel = 0;
 	var cache = [];
 	var resources = _resources;
-	
+
 	for (var i=0; i<_sources.length; i++) {
 		_addEventSource(_sources[i]);
 	}
-	
-	
-	
+
+
+
 	/* Fetching
 	-----------------------------------------------------------------------------*/
-	
-	
+
+
 	function isFetchNeeded(start, end) {
 		return !rangeStart || start < rangeStart || end > rangeEnd;
 	}
-	
-	
+
+
 	function fetchEvents(start, end) {
 		rangeStart = start;
 		rangeEnd = end;
@@ -69,8 +69,8 @@ function EventManager(options, _sources, _resources) {
 			fetchEventSource(sources[i], fetchID);
 		}
 	}
-	
-	
+
+
 	function fetchEventSource(source, fetchID) {
 		_fetchEventSource(source, function(events) {
 			if (fetchID == currentFetchID) {
@@ -88,8 +88,8 @@ function EventManager(options, _sources, _resources) {
 			}
 		});
 	}
-	
-	
+
+
 	function _fetchEventSource(source, callback) {
 		var i;
 		var fetchers = fc.sourceFetchers;
@@ -174,12 +174,12 @@ function EventManager(options, _sources, _resources) {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	/* Sources
 	-----------------------------------------------------------------------------*/
-	
+
 
 	function addEventSource(source) {
 		source = _addEventSource(source);
@@ -188,8 +188,8 @@ function EventManager(options, _sources, _resources) {
 			fetchEventSource(source, currentFetchID); // will eventually call reportEvents
 		}
 	}
-	
-	
+
+
 	function _addEventSource(source) {
 		if ($.isFunction(source) || $.isArray(source)) {
 			source = { events: source };
@@ -203,7 +203,7 @@ function EventManager(options, _sources, _resources) {
 			return source;
 		}
 	}
-	
+
 
 	function removeEventSource(source) {
 		sources = $.grep(sources, function(src) {
@@ -215,12 +215,12 @@ function EventManager(options, _sources, _resources) {
 		});
 		reportEvents(cache);
 	}
-	
-	
+
+
 	/* Manipulation
 	-----------------------------------------------------------------------------*/
-	
-	
+
+
 	function updateEvent(event) { // update an existing event
 		var i, len = cache.length, e,
 			defaultEventEnd = getView().defaultEventEnd, // getView???
@@ -256,8 +256,8 @@ function EventManager(options, _sources, _resources) {
 		normalizeEvent(event);
 		reportEvents(cache);
 	}
-	
-	
+
+
 	function renderEvent(event, stick) {
 		normalizeEvent(event);
 		if (!event.source) {
@@ -269,8 +269,8 @@ function EventManager(options, _sources, _resources) {
 		}
 		reportEvents(cache);
 	}
-	
-	
+
+
 	function removeEvents(filter) {
 		if (!filter) { // remove all
 			cache = [];
@@ -297,8 +297,8 @@ function EventManager(options, _sources, _resources) {
 		}
 		reportEvents(cache);
 	}
-	
-	
+
+
 	function clientEvents(filter) {
 		if ($.isFunction(filter)) {
 			return $.grep(cache, filter);
@@ -311,32 +311,32 @@ function EventManager(options, _sources, _resources) {
 		}
 		return cache; // else, return all
 	}
-	
-	
-	
+
+
+
 	/* Loading State
 	-----------------------------------------------------------------------------*/
-	
-	
+
+
 	function pushLoading() {
 		if (!loadingLevel++) {
 			trigger('loading', null, true);
 		}
 	}
-	
-	
+
+
 	function popLoading() {
 		if (!--loadingLevel) {
 			trigger('loading', null, false);
 		}
 	}
-	
-	
-	
+
+
+
 	/* Event Normalization
 	-----------------------------------------------------------------------------*/
-	
-	
+
+
 	function normalizeEvent(event) {
 		var source = event.source || {};
 		var ignoreTimezone = firstDefined(source.ignoreTimezone, options.ignoreTimezone);
@@ -363,18 +363,18 @@ function EventManager(options, _sources, _resources) {
 		}else{
 			event.className = [];
 		}
-		
+
 		// TODO: if there is no start date, return false to indicate an invalid event
-		
+
 		associateResourceWithEvent(event);
 	}
-	
-	
-	
+
+
+
 	/* Utils
 	------------------------------------------------------------------------------*/
-	
-	
+
+
 	function normalizeSource(source) {
 		if (source.className) {
 			// TODO: repeat code, same code for event classNames
@@ -389,27 +389,27 @@ function EventManager(options, _sources, _resources) {
 			normalizers[i](source);
 		}
 	}
-	
-	
+
+
 	function isSourcesEqual(source1, source2) {
 		return source1 && source2 && getSourcePrimitive(source1) == getSourcePrimitive(source2);
 	}
-	
-	
+
+
 	function getSourcePrimitive(source) {
 		return ((typeof source == 'object') ? (source.events || source.url) : '') || source;
 	}
-	
+
 	/* Resources
 	------------------------------------------------------------------------------*/
 
 	function associateResourceWithEvent(event) {
 		 var i = 0;
-		
+
 		if(!event.resourceId) {
             return;
         }
-        
+
         $.each(
             resources,
         	function( intIndex, resource ){

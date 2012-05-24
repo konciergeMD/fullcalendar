@@ -27,6 +27,7 @@ function segCmp(a, b) {
 
 
 function segsCollide(seg1, seg2) {
+    if (seg1.event.staticEventClass || seg2.event.staticEventClass)return false;
 	return seg1.end > seg2.start && seg1.start < seg2.end;
 }
 
@@ -71,7 +72,7 @@ function sliceSegs(events, visEventEnds, start, end) {
 				msLength: segEnd - segStart
 			});
 		}
-	} 
+	}
 	return segs.sort(segCmp);
 }
 

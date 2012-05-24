@@ -239,8 +239,12 @@ function ResourceEventRenderer() {
 				* dis + (rtl ? availWidth - outerWidth : 0);   // rtl
 			seg.top = top;
 			seg.left = left;
-			seg.outerWidth = outerWidth;
-			seg.outerHeight = bottom - top;
+            seg.outerWidth = outerWidth;
+            if (event.staticEventClass){
+                seg.left = leftmost - 2;
+                seg.outerWidth = colContentRight(colI*dis + dit) - seg.left + 3;
+            }
+            seg.outerHeight = bottom - top;
 			html += slotSegHtml(event, seg);
 		}
 		slotSegmentContainer[0].innerHTML = html; // faster than html()
@@ -252,7 +256,7 @@ function ResourceEventRenderer() {
 			event = seg.event;
 			eventElement = $(eventElements[i]); // faster than eq()
 			triggerRes = trigger('eventRender', event, event, eventElement);
-			if (triggerRes === false) {
+            if (triggerRes === false) {
 				eventElement.remove();
 			}else{
 				if (triggerRes && triggerRes !== true) {
@@ -324,6 +328,7 @@ function ResourceEventRenderer() {
 		else {
 			skinCss = getSkinCss(event, opt);
 		}
+        if (event.staticEventClass)skinCss = '';
 
 		var skinCssAttr = (skinCss ? " style='" + skinCss + "'" : '');
 		var classes = ['fc-event', 'fc-event-skin', 'fc-event-vert'];
@@ -340,6 +345,8 @@ function ResourceEventRenderer() {
 		if (event.source) {
 			classes = classes.concat(event.source.className || []);
 		}
+        if (event.staticEventClass)classes = [event.staticEventClass];
+
 		if (url) {
 			html += "a href='" + htmlEscape(event.url) + "'";
 		}else{
@@ -347,9 +354,10 @@ function ResourceEventRenderer() {
 		}
 		html +=
 			" class='" + classes.join(' ') + "'" +
-			" style='position:absolute;z-index:8;top:" + seg.top + "px;left:" + seg.left + "px;" + skinCss + "'" +
-			">" +
-			"<div class='fc-event-inner fc-event-skin'" + skinCssAttr + ">" +
+			" style='position:absolute;z-index:" + (event.staticEventClass?'0':'8') + ";top:" + seg.top + "px;left:" +  seg.left + "px;" + skinCss + "'" +
+			">";
+        if (!event.staticEventClass){
+			html += "<div class='fc-event-inner fc-event-skin'" + skinCssAttr + ">" +
 			"<div class='fc-event-head fc-event-skin'" + skinCssAttr + ">" +
 			"<div class='fc-event-time'>" +
 			htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
@@ -362,7 +370,8 @@ function ResourceEventRenderer() {
 			"</div>" +
 			"<div class='fc-event-bg'></div>" +
 			"</div>"; // close inner
-		if (seg.isEnd && isEventResizable(event)) {
+        }
+		if (seg.isEnd && isEventResizable(event) && !event.staticEventClass) {
 			html +=
 				"<div class='ui-resizable-handle ui-resizable-s'>=</div>";
 		}
@@ -511,6 +520,7 @@ function ResourceEventRenderer() {
 	// when event starts out IN TIMESLOTS
 
 	function draggableSlotEvent(event, eventElement, timeElement) {
+        if (event.staticEventClass)return;
 		var origPosition;
 		var allDay=false;
 		var dayDelta;

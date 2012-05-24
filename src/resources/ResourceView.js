@@ -671,12 +671,12 @@ function ResourceView(element, calendar, viewName) {
 
 	function cellDate(cell) {
 		var d = colDate(cell.col);
-		var slotIndex = cell.row;
+		var slotIndex = cell.row - 1;
 		if (opt('allDaySlot')) {
 			slotIndex--;
 		}
 		if (slotIndex >= 0) {
-			addMinutes(d, minMinute + slotIndex * opt('slotMinutes'));
+			addMinutes(d, (minMinute + slotIndex * opt('slotMinutes')));
 		}
 		return d;
 	}
