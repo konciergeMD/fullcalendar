@@ -19,7 +19,6 @@ setDefaults({
     showDayGutter: false,
     showResourceGutter: false,
     isGrayedOut: function(mins){
-        if ((mins < 480)||(mins >= 1020)||((mins >= 720 )&&(mins<780)))return true;
         return false;
     }
 });
@@ -906,7 +905,7 @@ function ResourceView(element, calendar, viewName) {
 		var cell = hoverListener.stop();
 		clearOverlays();
 		if (cell) {
-		    var resource = resources[cell.col];
+		    var resource = resources[cell.col % resources.length];
 		    var dDrop = cellDate(cell);
 		    var dViewing = t.visStart;
 		    //setYMD(dDrop, dViewing.getFullYear(), dViewing.getMonth(), dViewing.getDate());
