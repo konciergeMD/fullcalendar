@@ -1,4 +1,13 @@
-build/fullcalendar
-build/fullcalendar-*
+build/out
+build/component
 dist
+<<<<<<< HEAD
 .DS_Store
+=======
+
+# for npm
+node_modules
+
+# for bower
+components
+>>>>>>> FullCalendar-_original/master

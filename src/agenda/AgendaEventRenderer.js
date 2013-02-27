@@ -1,16 +1,16 @@
 
 function AgendaEventRenderer() {
 	var t = this;
-	
-	
+
+
 	// exports
 	t.renderEvents = renderEvents;
 	t.compileDaySegs = compileDaySegs; // for DayEventRenderer
 	t.clearEvents = clearEvents;
 	t.slotSegHtml = slotSegHtml;
 	t.bindDaySeg = bindDaySeg;
-	
-	
+
+
 	// imports
 	DayEventRenderer.call(t);
 	var opt = t.opt;
@@ -47,17 +47,17 @@ function AgendaEventRenderer() {
 	var calendar = t.calendar;
 	var formatDate = calendar.formatDate;
 	var formatDates = calendar.formatDates;
-	
+
 	/* Rendering
 	----------------------------------------------------------------------------*/
-	
 
-	function renderEvents(events, modifiedEventId) {	
+
+	function renderEvents(events, modifiedEventId) {
 		reportEvents(events);
 		var i, len=events.length,
 			dayEvents=[],
 			slotEvents=[];
-		
+
 		for (i=0; i<len; i++) {
 			if (events[i].allDay) {
 				dayEvents.push(events[i]);
@@ -71,15 +71,15 @@ function AgendaEventRenderer() {
 		}
 		renderSlotSegs(compileSlotSegs(slotEvents), modifiedEventId);
 	}
-	
-	
+
+
 	function clearEvents() {
 		reportEventClear();
 		getDaySegmentContainer().empty();
 		getSlotSegmentContainer().empty();
 	}
-	
-	
+
+
 	function compileDaySegs(events) {
 		var levels = stackSegs(sliceSegs(events, $.map(events, exclEndDay), t.visStart, t.visEnd)),
 			i, levelCnt=levels.length, level,
@@ -96,8 +96,8 @@ function AgendaEventRenderer() {
 		}
 		return segs;
 	}
-	
-	
+
+
 	function compileSlotSegs(events) {
 		var colCnt = getColCnt(),
 			minMinute = getMinMinute(),
@@ -124,8 +124,8 @@ function AgendaEventRenderer() {
 		}
 		return segs;
 	}
-	
-	
+
+
 	function slotEventEnd(event) {
 		if (event.end) {
 			return cloneDate(event.end);
@@ -133,12 +133,12 @@ function AgendaEventRenderer() {
 			return addMinutes(cloneDate(event.start), opt('defaultEventMinutes'));
 		}
 	}
-	
-	
+
+
 	// renders events in the 'time slots' at the bottom
-	
+
 	function renderSlotSegs(segs, modifiedEventId) {
-	
+
 		var i, segCnt=segs.length, seg,
 			event,
 			classes,
@@ -160,7 +160,7 @@ function AgendaEventRenderer() {
 			slotSegmentContainer = getSlotSegmentContainer(),
 			rtl, dis, dit,
 			colCnt = getColCnt();
-			
+
 		if (rtl = opt('isRTL')) {
 			dis = -1;
 			dit = colCnt - 1;
@@ -168,7 +168,7 @@ function AgendaEventRenderer() {
 			dis = 1;
 			dit = 0;
 		}
-			
+
 		// calculate position/dimensions, create html
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -204,7 +204,7 @@ function AgendaEventRenderer() {
 		}
 		slotSegmentContainer[0].innerHTML = html; // faster than html()
 		eventElements = slotSegmentContainer.children();
-		
+
 		// retrieve elements, run through eventRender callback, bind event handlers
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -233,9 +233,9 @@ function AgendaEventRenderer() {
 				reportEventElement(event, eventElement);
 			}
 		}
-		
+
 		lazySegBind(slotSegmentContainer, segs, bindSlotSeg);
-		
+
 		// record event sides and title positions
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -250,7 +250,7 @@ function AgendaEventRenderer() {
 				}
 			}
 		}
-		
+
 		// set all positions/dimensions at once
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -269,21 +269,19 @@ function AgendaEventRenderer() {
 				trigger('eventAfterRender', event, event, eventElement);
 			}
 		}
-					
+
 	}
-	
-	
+
+
 	function slotSegHtml(event, seg) {
 		var html = "<";
 		var url = event.url;
-		
-		var skinCss = $('');
-		if(event.resource) {		
+        var skinCss = $('');
+		if(event.resource) {
 			skinCss = getSkinCssWithResource(event, event.resource); // PA TODO - merge getSkinCssWithResource into getSkinCss
 		} else {
 			skinCss = getSkinCss(event, opt);
 		}
-		
 		var skinCssAttr = (skinCss ? " style='" + skinCss + "'" : '');
 		var classes = ['fc-event', 'fc-event-skin', 'fc-event-vert'];
 		if (isEventDraggable(event)) {
@@ -329,8 +327,8 @@ function AgendaEventRenderer() {
 			"</" + (url ? "a" : "div") + ">";
 		return html;
 	}
-	
-	
+
+
 	function bindDaySeg(event, eventElement, seg) {
 		if (isEventDraggable(event)) {
 			draggableDayEvent(event, eventElement, seg.isStart);
@@ -341,8 +339,8 @@ function AgendaEventRenderer() {
 		eventElementHandlers(event, eventElement);
 			// needs to be after, because resizableDayEvent might stopImmediatePropagation on click
 	}
-	
-	
+
+
 	function bindSlotSeg(event, eventElement, seg) {
 		var timeElement = eventElement.find('div.fc-event-time');
 		if (isEventDraggable(event)) {
@@ -353,15 +351,15 @@ function AgendaEventRenderer() {
 		}
 		eventElementHandlers(event, eventElement);
 	}
-	
-	
-	
+
+
+
 	/* Dragging
 	-----------------------------------------------------------------------------------*/
-	
-	
+
+
 	// when event starts out FULL-DAY
-	
+
 	function draggableDayEvent(event, eventElement, isStart) {
 		var origWidth;
 		var revert;
@@ -455,10 +453,10 @@ function AgendaEventRenderer() {
 			}
 		}
 	}
-	
-	
+
+
 	// when event starts out IN TIMESLOTS
-	
+
 	function draggableSlotEvent(event, eventElement, timeElement) {
 		var origPosition;
 		var allDay=false;
@@ -549,13 +547,13 @@ function AgendaEventRenderer() {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	/* Resizing
 	--------------------------------------------------------------------------------------*/
-	
-	
+
+
 	function resizableSlotEvent(event, eventElement, timeElement) {
 		var slotDelta, prevSlotDelta;
 		var slotHeight = getSlotHeight();
@@ -597,7 +595,7 @@ function AgendaEventRenderer() {
 			}
 		});
 	}
-	
+
 
 }
 

@@ -336,7 +336,6 @@ function EventManager(options, _sources, _resources) {
 	/* Event Normalization
 	-----------------------------------------------------------------------------*/
 
-
 	function normalizeEvent(event) {
 		var source = event.source || {};
 		var ignoreTimezone = firstDefined(source.ignoreTimezone, options.ignoreTimezone);

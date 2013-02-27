@@ -2,12 +2,12 @@
 function DayEventRenderer() {
 	var t = this;
 
-	
+
 	// exports
 	t.renderDaySegs = renderDaySegs;
 	t.resizableDayEvent = resizableDayEvent;
-	
-	
+
+
 	// imports
 	var opt = t.opt;
 	var trigger = t.trigger;
@@ -34,13 +34,13 @@ function DayEventRenderer() {
 	var renderDayOverlay = t.renderDayOverlay;
 	var clearOverlays = t.clearOverlays;
 	var clearSelection = t.clearSelection;
-	
-	
-	
+
+
+
 	/* Rendering
 	-----------------------------------------------------------------------------*/
-	
-	
+
+
 	function renderDaySegs(segs, modifiedEventId, isResourceView) {
 		var segmentContainer = getDaySegmentContainer();
 		var rowDivs;
@@ -84,8 +84,8 @@ function DayEventRenderer() {
 		}
 		daySegSetTops(segs, getRowTops(rowDivs));
 	}
-	
-	
+
+
 	function renderTempDaySegs(segs, adjustRow, adjustTop) {
 		var tempContainer = $("<div/>");
 		var elements;
@@ -113,8 +113,8 @@ function DayEventRenderer() {
 		}
 		return $(elements);
 	}
-	
-	
+
+
 	function daySegHTML(segs, isResourceView) { // also sets seg.left and seg.outerWidth
 		var rtl = opt('isRTL');
 		var i;
@@ -140,19 +140,18 @@ function DayEventRenderer() {
 			if (isEventDraggable(event)) {
 				classes.push('fc-event-draggable');
 			}
-			
 			if (isResourceView) {
                 classes.push('fc-corner-left');
 			    classes.push('fc-corner-right');
-			    
+
 			    if (event.resource) {
 			        leftCol = event.resource._col;
 			    } else {
 			        leftCol = 0;
 			    }
-			    
+
 			    rightCol = leftCol;
-			    
+
 			    left = colContentLeft(leftCol);
 			    right = colContentRight(rightCol);
 			} else {
@@ -185,13 +184,13 @@ function DayEventRenderer() {
 				classes = classes.concat(event.source.className || []);
 			}
 			url = event.url;
-			if(event.resource) {		
+			if(event.resource) {
 				skinCss = getSkinCssWithResource(event, event.resource); // PA TODO - merge getSkinCssWithResource into getSkinCss
 			}
 			else {
 				skinCss = getSkinCss(event, opt);
 			}
-			
+
 			if (url) {
 				html += "<a href='" + htmlEscape(url) + "'";
 			}else{
@@ -229,8 +228,8 @@ function DayEventRenderer() {
 		}
 		return html;
 	}
-	
-	
+
+
 	function daySegElementResolve(segs, elements) { // sets seg.element
 		var i;
 		var segCnt = segs.length;
@@ -259,8 +258,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-	
-	
+
+
 	function daySegElementReport(segs) {
 		var i;
 		var segCnt = segs.length;
@@ -274,8 +273,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-	
-	
+
+
 	function daySegHandlers(segs, segmentContainer, modifiedEventId) {
 		var i;
 		var segCnt = segs.length;
@@ -297,8 +296,8 @@ function DayEventRenderer() {
 		}
 		lazySegBind(segmentContainer, segs, bindDaySeg);
 	}
-	
-	
+
+
 	function daySegCalcHSides(segs) { // also sets seg.key
 		var i;
 		var segCnt = segs.length;
@@ -320,8 +319,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-	
-	
+
+
 	function daySegSetWidths(segs) {
 		var i;
 		var segCnt = segs.length;
@@ -335,8 +334,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-	
-	
+
+
 	function daySegCalcHeights(segs) {
 		var i;
 		var segCnt = segs.length;
@@ -358,8 +357,8 @@ function DayEventRenderer() {
 			}
 		}
 	}
-	
-	
+
+
 	function getRowDivs() {
 		var i;
 		var rowCnt = getRowCnt();
@@ -370,8 +369,8 @@ function DayEventRenderer() {
 		}
 		return rowDivs;
 	}
-	
-	
+
+
 	function getRowTops(rowDivs) {
 		var i;
 		var rowCnt = rowDivs.length;
@@ -381,8 +380,8 @@ function DayEventRenderer() {
 		}
 		return tops;
 	}
-	
-	
+
+
 	function daySegSetTops(segs, rowTops) { // also triggers eventAfterRender
 		var i;
 		var segCnt = segs.length;
@@ -399,19 +398,19 @@ function DayEventRenderer() {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	/* Resizing
 	-----------------------------------------------------------------------------------*/
-	
-	
+
+
 	function resizableDayEvent(event, element, seg) {
 		var rtl = opt('isRTL');
 		var direction = rtl ? 'w' : 'e';
 		var handle = element.find('div.ui-resizable-' + direction);
 		var isResizing = false;
-		
+
 		// TODO: look into using jquery-ui mouse widget for this stuff
 		disableTextSelection(element); // prevent native <a> selection for IE
 		element
@@ -425,7 +424,7 @@ function DayEventRenderer() {
 					                               // (eventElementHandlers needs to be bound after resizableDayEvent)
 				}
 			});
-		
+
 		handle.mousedown(function(ev) {
 			if (ev.which != 1) {
 				return; // needs to be left mouse button
@@ -482,7 +481,7 @@ function DayEventRenderer() {
 					renderDayOverlay(event.start, addDays(cloneDate(newEnd), 1)); // coordinate grid already rebuild at hoverListener.start
 				}
 			}, ev);
-			
+
 			function mouseup(ev) {
 				trigger('eventResizeStop', this, event, ev);
 				$('body').css('cursor', '');
@@ -493,14 +492,14 @@ function DayEventRenderer() {
 					// event redraw will clear helpers
 				}
 				// otherwise, the drag handler already restored the old events
-				
+
 				setTimeout(function() { // make this happen after the element's click event
 					isResizing = false;
 				},0);
 			}
-			
+
 		});
 	}
-	
+
 
 }

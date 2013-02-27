@@ -57,13 +57,11 @@ function View(element, calendar, viewName) {
 		);
 	}
 
-
 	/*
 	function setOverflowHidden(bool) {
 		element.css('overflow', bool ? 'hidden' : '');
 	}
 	*/
-
 
 	function isEventDraggable(event) {
 		return isEventEditable(event) && !opt('disableDragging');
@@ -78,8 +76,6 @@ function View(element, calendar, viewName) {
 	function isEventEditable(event) {
 		return firstDefined(event.editable, (event.source || {}).editable, opt('editable'));
 	}
-
-
 
 	/* Event Data
 	------------------------------------------------------------------------------*/

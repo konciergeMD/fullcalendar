@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * FullCalendar v@VERSION Google Calendar Plugin
  *
@@ -7,6 +8,15 @@
  *
  * Date: @DATE
  *
+=======
+/*!
+ * <%= meta.title %> v<%= meta.version %> Google Calendar Plugin
+ *
+ * (c) <%= meta.copyright %>
+ * Dual licensed under the MIT and GPL licenses, located in
+ * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
+ *
+>>>>>>> FullCalendar-_original/master
  */
  
 (function($) {
