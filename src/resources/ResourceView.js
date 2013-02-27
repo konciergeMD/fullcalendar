@@ -886,6 +886,7 @@ function ResourceView(element, calendar, viewName) {
 
 
 	function dragStart(_dragElement, ev, ui) {
+
 		hoverListener.start(function(cell) {
 			clearOverlays();
 			if (cell) {
@@ -902,6 +903,7 @@ function ResourceView(element, calendar, viewName) {
 
 
 	function dragStop(_dragElement, ev, ui) {
+
 		var cell = hoverListener.stop();
 		clearOverlays();
 		if (cell) {

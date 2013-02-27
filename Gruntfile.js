@@ -18,8 +18,8 @@ module.exports = function(grunt) {
 	var componentConfig = grunt.file.readJSON('component.json');
 	var pluginConfig = grunt.file.readJSON('fullcalendar.jquery.json');
 	var meta = _.extend({}, packageConfig, componentConfig, pluginConfig);
-	
-	
+
+
 	var config = { // this will eventually get passed to grunt.initConfig
 		meta: meta, // do this primarily for templating (<%= %>)
 
@@ -97,6 +97,11 @@ module.exports = function(grunt) {
 			'src/common/DayEventRenderer.js',
 			'src/common/SelectionManager.js',
 			'src/common/OverlayManager.js',
+            'src/resources/ResourceDayView.js',
+            'src/resources/ResourceEventRenderer.js',
+            'src/resources/ResourceList.js',
+            'src/resources/ResourceView.js',
+            'src/resources/ResourceWeekView.js',
 			'src/common/CoordinateGrid.js',
 			'src/common/HoverListener.js',
 			'src/common/HorizontalPositionCache.js',
