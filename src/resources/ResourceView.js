@@ -383,7 +383,11 @@ function ResourceView(element, calendar, viewName) {
             var dow = Math.ceil((i + 1)/(colCnt/ t.daysCnt)) - 1;
 			//date = colDate(dow); 	// PA massive hack of existing code, but this needs to be changed to support working hours anyway!
             date = addDays(cloneDate(t.visStart), dow*dis+dit);
-            var dayHeadCell = dayHeadCells.eq(dow).html(formatDate(date, 'dddd'));
+            if (calendar.getView().name == 'resourceWeek'){
+                var dayHeadCell = dayHeadCells.eq(dow).html(formatDate(date, 'ddd - M/d'));
+            }else{
+                var dayHeadCell = dayHeadCells.eq(dow).html(formatDate(date, 'dddd - M/d'));
+            }
 			headCell = resHeadCells.eq(i);
             headCell.addClass('fc-daycol' + dow);
 			if(resources.length > 0) {
