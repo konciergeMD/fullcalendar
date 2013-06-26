@@ -1,6 +1,28 @@
+version 1.6.1 (4/14/13)
+	- fixed event inner content overflow bug (issue 1783)
+	- fixed table header className bug (1772)
+	- removed text-shadow on events (better for general use, thx tkrotoff)
 
-<<<<<<< HEAD
-=======
+version 1.6.0 (3/18/13)
+	- visual facelift, with bootstrap-inspired buttons and colors
+	- simplified HTML/CSS for events and buttons
+	- dayRender, for modifying a day cell (issue 191, thx althaus)
+	- week numbers on side of calendar (issue 295)
+		- weekNumber
+		- weekNumberCalculation
+		- weekNumberTitle
+		- "W" formatting variable
+	- finer snapping granularity for agenda view events (issue 495, thx ms-doodle-com)
+	- eventAfterAllRender (issue 753, thx pdrakeweb)
+	- eventDataTransform (thx joeyspo)
+	- data-date attributes on cells (thx Jae)
+	- expose $.fullCalendar.dateFormatters
+	- when clicking fast on buttons, prevent text selection
+	- bundled with latest jQuery (1.9.1) and jQuery UI (1.10.2)
+	- Grunt/Lumbar build system for internal development
+	- build for Bower package manager
+	- build for jQuery plugin site
+
 version 1.5.4 (9/5/12)
 	- made compatible with jQuery 1.8.* (thx archaeron)
 	- bundled with jQuery 1.8.1 and jQuery UI 1.8.23
@@ -12,7 +34,6 @@ version 1.5.3 (2/6/12)
 version 1.5.2 (8/21/11)
 	- correctly process UTC "Z" ISO8601 date strings (issue 750)
 
->>>>>>> FullCalendar-_original/master
 version 1.5.1 (4/9/11)
 	- more flexible ISO8601 date parsing (issue 814)
 	- more flexible parsing of UNIX timestamps (issue 826)
@@ -137,7 +158,7 @@ version 1.4.4 (2/3/10)
 version 1.4.3 (12/22/09)
 	- added destroy method
 	- Google Calendar event pages respect currentTimezone
-	- caching now handled by jQuery's ajax	
+	- caching now handled by jQuery's ajax
 	- protection from setting aspectRatio to zero
 	- bugfixes
 		- parseISO8601 and DST caused certain events to display day before
@@ -322,4 +343,4 @@ version 1.1 (5/10/09)
 		- for THEAD and TBODY (in 1.0, just used TBODY, restructured in 1.1)
 		- IF UPGRADING FROM FULLCALENDAR 1.0, YOU MUST UPGRADE FULLCALENDAR.CSS
 		  !!!!!!!!!!!
-		  
+
