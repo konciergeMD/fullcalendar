@@ -17,8 +17,9 @@
     text-align: right;
     white-space: nowrap;
     font-weight: normal;
-    font-size: 11px;
-    line-height: 11px;
+    font-size: 10px;
+    height: 14px;
+    line-height: 14px;
 }
 
 .fc-agenda .fc-day-content {
@@ -69,7 +70,7 @@
 }
 
 .fc-agenda-slots td div {
-    height: 12px;
+    height: 14px;
 }
 
 .fc-agenda-slots tr.fc-slot0 th,
