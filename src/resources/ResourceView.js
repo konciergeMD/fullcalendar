@@ -393,10 +393,14 @@ function ResourceView(element, calendar, viewName) {
 			if(resources.length > 0) {
                 var res = i % resources.length;
                 var name = resources[res].name;
-                if (colCnt > resources.length){
+                if (colCnt > resources.length || colCnt > 6){
                     if(resources[res].shortName)name = resources[res].shortName;
                 }
-				headCell.html(name);
+                if (resources[res].name != name){
+                    headCell.html("<span data-toggle='tooltip' title='" + resources[res].name + "'>" + name + "</span>");
+                }else{
+                    headCell.html(name);
+                }
 			}else{
 				headCell.html("None");
 			}
@@ -419,7 +423,7 @@ function ResourceView(element, calendar, viewName) {
 		viewHeight = height;
 		slotTopCache = {};
 
-		var headHeight = dayBody.position().top;
+        var headHeight = dayHead.height();
 		var allDayHeight = slotScroller.position().top; // including divider
 		var bodyHeight = Math.min( // total body height, including borders
 			height - headHeight,   // when scrollbars
