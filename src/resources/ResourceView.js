@@ -4,7 +4,7 @@ setDefaults({
 	allDayText: 'all-day',
 	firstHour: 6,
 	slotMinutes: 30,
-	defaultEventMinutes: 120,
+	defaultEventMinutes: 1,
 	axisFormat: 'h(:mm)tt',
 	timeFormat: {
 		agenda: 'h:mm{ - h:mm}'
@@ -588,27 +588,14 @@ function ResourceView(element, calendar, viewName) {
 	}
 
 
-	function renderSlotOverlay(overlayStart, overlayEnd) {
-		var dayStart = cloneDate(t.visStart);
-		var dayEnd = addDays(cloneDate(dayStart), t.dayCnt);
-		for (var i=0; i<colCnt; i++) {
-			var stretchStart = new Date(Math.max(dayStart, overlayStart));
-			var stretchEnd = new Date(Math.min(dayEnd, overlayEnd));
-			if (stretchStart < stretchEnd) {
-				var col = i*dis+dit;
-				var rect = coordinateGrid.rect(0, col, 0, col, slotContent); // only use it for horizontal coords
-				var top = timePosition(dayStart, stretchStart);
-				var bottom = timePosition(dayStart, stretchEnd);
-				rect.top = top;
-				rect.height = bottom - top;
-				slotBind(
-					renderOverlay(rect, slotContent)
-				);
-			}
-			addDays(dayStart, 1);
-			addDays(dayEnd, t.dayCnt);
-		}
-	}
+    function renderSlotOverlay(overlayStart, overlayEnd, col) {
+        var rect = coordinateGrid.rect(0, col, 0, col, slotContent); // only use it for horizontal coords
+        var top = timePosition(overlayStart, overlayStart);
+        var bottom = timePosition(overlayEnd, overlayEnd);
+        rect.top = top;
+        rect.height = bottom - top;
+        slotBind(renderOverlay(rect, slotContent));
+    }
 
 
 
@@ -902,8 +889,8 @@ function ResourceView(element, calendar, viewName) {
 					renderCellOverlay(cell.row, cell.col, cell.row, cell.col);
 				}else{
 					var d1 = cellDate(cell);
-					var d2 = addMinutes(cloneDate(d1), opt('defaultEventMinutes'));
-					renderSlotOverlay(d1, d2);
+                    var d2 = addMinutes(cloneDate(d1), $(_dragElement).data('minutes') || opt('defaultEventMinutes'));
+					renderSlotOverlay(d1, d2, cell.col);
 				}
 			}
 		}, ev);
