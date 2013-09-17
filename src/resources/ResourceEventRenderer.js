@@ -214,14 +214,14 @@ function ResourceEventRenderer() {
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
 			event = seg.event;
-			top = timePosition(seg.start, seg.start);
-			bottom = timePosition(seg.start, seg.end);
+            top = timePosition(seg.start, seg.start) + .5;
+            bottom = timePosition(seg.start, seg.end) - .5;
 			colI = seg.col;
 			levelI = seg.level;
 			forward = seg.forward || 0;
 			leftmost = colContentLeft(colI*dis + dit);
 			availWidth = colContentRight(colI*dis + dit) - leftmost;
-			availWidth = Math.min(availWidth-6, availWidth*.95); // TODO: move this to CSS
+			//availWidth = Math.min(availWidth-6, availWidth*.95); // TODO: move this to CSS
 			if (levelI) {
 				// indented and thin
 				outerWidth = availWidth / (levelI + forward + 1);
@@ -547,6 +547,7 @@ function ResourceEventRenderer() {
 				minuteDelta = prevMinuteDelta = 0;
 				hoverListener.start(function(cell, origCell, rowDelta, colDelta) {
 					eventElement.draggable('option', 'revert', !cell);
+                    eventElement.addClass('fc-dragging');
 					clearOverlays();
                     var resources = calendar.getResources();
 					if (cell) {
@@ -584,6 +585,7 @@ function ResourceEventRenderer() {
 				    resources;
 				clearOverlays();
 				trigger('eventDragStop', eventElement, event, ev, ui);
+                eventElement.removeClass('fc-dragging');
 				if (cell && (columnDelta || minuteDelta || allDay)) {
 					// changed!
 					var resources = calendar.getResources();
